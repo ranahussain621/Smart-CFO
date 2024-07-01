@@ -1,0 +1,28 @@
+pipelines:
+  branches:
+    master:
+      - step:
+          name: Build and Push Docker Image to ECR (Production)
+          image: amazon/aws-cli
+          services:
+            - docker
+          caches:
+            - docker
+          script:
+            - aws configure set aws_access_key_id "$AWS_ACCESS_KEY_ID"
+            - aws configure set aws_secret_access_key "$AWS_SECRET_ACCESS_KEY"
+            - aws configure set default.region "us-east-1"
+            - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 905418001095.dkr.ecr.us-east-1.amazonaws.com
+            - docker build -t smartcfo-api .
+            - DOCKER_TAG=latest-$BITBUCKET_BUILD_NUMBER
+            - docker tag smartcfo-api:latest 905418001095.dkr.ecr.us-east-1.amazonaws.com/smartcfo-api:$DOCKER_TAG
+            - docker push 905418001095.dkr.ecr.us-east-1.amazonaws.com/smartcfo-api:$DOCKER_TAG
+      - step:
+          name: Deploy to Production
+          image: atlassian/default-image:2
+          script:
+            - ssh "$SSH_USER@$SSH_SERVER" "sudo aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID && aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY && aws configure set default.region us-east-1"
+            - ssh "$SSH_USER@$SSH_SERVER" "aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 905418001095.dkr.ecr.us-east-1.amazonaws.com"
+            - ssh "$SSH_USER@$SSH_SERVER" "docker stop smartcfo-api || true && docker rm -f smartcfo-api || true"
+            - ssh "$SSH_USER@$SSH_SERVER" "export DOCKER_TAG=latest-$BITBUCKET_BUILD_NUMBER && docker pull 905418001095.dkr.ecr.us-east-1.amazonaws.com/smartcfo-api:\$DOCKER_TAG"
+            - ssh "$SSH_USER@$SSH_SERVER" "export DOCKER_TAG=latest-$BITBUCKET_BUILD_NUMBER && docker run -d --pull=always --restart unless-stopped -p 4000:4000 --env-file /var/ENV-prod --name smartcfo-api 905418001095.dkr.ecr.us-east-1.amazonaws.com/smartcfo-api:\$DOCKER_TAG && docker image prune -a -f"

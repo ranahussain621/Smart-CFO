@@ -1,0 +1,19 @@
+.name {
+    color: initial;
+    cursor: pointer;
+    display: inline-block;
+    text-transform: capitalize;
+    transition: transform 0.3s ease;
+}
+
+@keyframes popUp {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+.name:hover {
+    color: blue !important;
+    animation: popUp 1s ease forwards;
+    
+}

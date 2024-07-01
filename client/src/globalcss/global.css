@@ -1,0 +1,54 @@
+.input {
+  overflow: hidden;
+  border-radius: 4px;
+  background-color: #f3f6f9;
+  border: 1px solid;
+  border-color: #2d3843;
+  transition: all 0.3s;
+  border-left-width: 8px;
+  border-left-color: #f3f6f9;
+  width: 600px;
+  outline: none;
+  padding: 20px 25px;
+}
+.input:hover {
+  background-color: transparent;
+}
+
+.input:focus {
+  background-color: transparent;
+  box-shadow: 0.25 0 0 0 2px #000000;
+  border-color: #596cf7;
+  border-left-width: 8px;
+}
+
+.logo {
+  width: 380px;
+}
+
+.form-icon {
+  width: 35px;
+}
+body {
+  margin: 0;
+  font-family:  'Poppins';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: 'Poppins';
+}
+@font-face {
+  font-family: 'Poppins';
+  src: url(../Assets/font/Poppins-Regular.ttf);
+}
+
+@media only screen and (max-width: 768px) {
+  .logo {
+    width: 200px;
+  }
+  .form-icon {
+    width: 20px;
+  }
+}

@@ -1,0 +1,19 @@
+.subscription-card {
+    transform: scale(1);
+    transition: transform 0.8s ease;  
+  }
+  
+  .subscription-card:hover {
+    transform: scale(1.03);
+  }
+
+  .subscription-card {
+    height: 100%; /* Set a fixed height for all cards */
+    display: flex; /* Use flexbox to align items vertically */
+    flex-direction: column; /* Align items vertically */
+  }
+  
+  .subscription-card .card-body {
+    flex-grow: 1; /* Allow the card body to expand to fill the available space */
+  }
+  

@@ -1,0 +1,11 @@
+.selected-item {
+    background-color: #EEEEEE !important;
+    color: black !important;
+    font-weight: 900 !important;
+  }
+  .selected-img {
+    background-color: #3b18be !important;
+  }
+  .selected-icon {
+    color: #3b18be !important;
+  }

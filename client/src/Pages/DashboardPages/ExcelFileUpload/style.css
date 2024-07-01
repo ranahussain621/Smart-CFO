@@ -1,0 +1,14 @@
+.file-upload {
+    min-height: 300px; /* Specify a minimum height */
+    border: 5px dotted #222222;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+  }
+  
+  @media screen and (max-width: 768px) {
+    .file-upload {
+      min-height: 200px; /* Adjust height for smaller screens */
+    }
+  }
+  
